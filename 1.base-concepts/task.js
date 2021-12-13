@@ -7,7 +7,6 @@ function solveEquation(a, b, c) {
   };
   if (discriminant == 0) {
     box[0] = -b / (2 * a);
-    box.splice(1);
   };
   if (discriminant > 0) {
     box[0] = (-b + Math.sqrt(discriminant)) / (2 * a);
@@ -19,7 +18,7 @@ console.log(solveEquation(1, 2, 10));
 console.log(solveEquation(1, 2, 1));
 console.log(solveEquation(1, 5, 4));
 
-function calculateTotalMortgage(percent, creditTerm, creditAmount, plannedDate, plusYears) {
+function calculateTotalMortgage(percent, creditTerm, creditAmount, plannedDate) {
   if (percent < 0) {
     alert(`Параметр "Процентная ставка" содержит неправильное значение "${percent}"`);
     return;
@@ -33,17 +32,23 @@ function calculateTotalMortgage(percent, creditTerm, creditAmount, plannedDate, 
     return;
   };
   let P = percent / 100 / 12;
-  plannedDate = new Date(new Date().setFullYear(new Date().getFullYear() + plusYears));
-  alert(plannedDate);
-  let mounthDate = plannedDate.getMonth() + 1;
+  let now = new Date;
+  plannedDate = new Date(new Date().setFullYear(new Date().getFullYear() + 3));
+  let getMounth = (plannedDate.getMonth() + 1) * (plannedDate.getFullYear() - now.getFullYear());
   let totalAmount;
   let loanBody = creditAmount - creditTerm;
-  let degree = loanBody * (P + (P / ((Math.pow((1 + P), mounthDate)) - 1)));
-  totalAmount = degree * mounthDate;
-  return totalAmount.toFixed(2);
+  let degree = loanBody * (P + (P / ((Math.pow((1 + P), getMounth)) - 1)));
+  let multi = degree * getMounth;
+  if (multi <= 0) {
+    totalAmount = 0;
+  };
+  if (multi > 0) {
+    totalAmount = multi.toFixed(2);
+  };
+  return Number(totalAmount);
 };
-console.log(calculateTotalMortgage(15, 0, 10_000, "plannedDate", 3));
-console.log(calculateTotalMortgage(10, 0, 10_000, "plannedDate", 3));
-console.log(calculateTotalMortgage(10, 20_000, 20_000, "plannedDate", 4));
-console.log(calculateTotalMortgage(10, 1_000, 50_000, "plannedDate", 1));
-console.log(calculateTotalMortgage(10, 0, 50_000, "plannedDate", 1));
+console.log(calculateTotalMortgage(15, 0, 10_000, 'plannedDate'));
+console.log(calculateTotalMortgage(10, 0, 10_000, 'plannedDate'));
+console.log(calculateTotalMortgage(10, 20_000, 20_000, 'plannedDate'));
+console.log(calculateTotalMortgage(10, 1_000, 50_000, 'plannedDate'));
+console.log(calculateTotalMortgage(10, 0, 50_000, 'plannedDate'));
