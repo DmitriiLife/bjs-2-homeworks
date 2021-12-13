@@ -30,7 +30,6 @@ function calculateTotalMortgage(percent, creditTerm, creditAmount, plannedDate) 
   };
   let P = percent / 100 / 12;
   let now = new Date;
-
   if (plannedDate == 'plannedDate + 1') {
     plannedDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
   }
@@ -40,7 +39,6 @@ function calculateTotalMortgage(percent, creditTerm, creditAmount, plannedDate) 
   if (plannedDate == 'plannedDate + 4') {
     plannedDate = new Date(new Date().setFullYear(new Date().getFullYear() + 4));
   }
-  alert(plannedDate);
   let getMounth = (plannedDate.getMonth() + 1) * (plannedDate.getFullYear() - now.getFullYear());
   let totalAmount;
   let loanBody = creditAmount - creditTerm;
