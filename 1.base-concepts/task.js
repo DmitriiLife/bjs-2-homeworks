@@ -12,23 +12,38 @@ function solveEquation(a, b, c) {
   if (discriminant > 0) {
     box[0] = (-b + Math.sqrt(discriminant)) / (2 * a);
     box[1] = (-b - Math.sqrt(discriminant)) / (2 * a);
-    //box.splice(0);
   };
   return box;
 };
-console.log(solveEquation(4, -20, 25));
-console.log(solveEquation(2, 4, 7));
-console.log(solveEquation(3, 8, -11));
+console.log(solveEquation(1, 2, 10));
+console.log(solveEquation(1, 2, 1));
+console.log(solveEquation(1, 5, 4));
 
-"use strict";
-function calculateTotalMortgage(percent, creditTerm, creditAmount, date) {
-  let fractionPercent = percent / 100;
+function calculateTotalMortgage(percent, creditTerm, creditAmount, plannedDate, plusYears) {
+  if (percent < 0) {
+    alert(`Параметр "Процентная ставка" содержит неправильное значение "${percent}"`);
+    return;
+  };
+  if (creditTerm < 0) {
+    alert(`Параметр "Начальный взнос" содержит неправильное значение "${creditTerm}"`);
+    return;
+  };
+  if (creditTerm < 0) {
+    alert(`Параметр "Общая стоимость" содержит неправильное значение "${creditAmount}"`);
+    return;
+  };
+  let P = percent / 100 / 12;
+  plannedDate = new Date(new Date().setFullYear(new Date().getFullYear() + plusYears));
+  alert(plannedDate);
+  let mounthDate = plannedDate.getMonth() + 1;
   let totalAmount;
   let loanBody = creditAmount - creditTerm;
-  let P = fractionPercent * 1 / 12;
-  let degree = loanBody * (P + (P / ((Math.pow((1 + P), date)) - 1)));
-  let test = Math.pow((1 + P), date);
-  totalAmount = degree * date;
+  let degree = loanBody * (P + (P / ((Math.pow((1 + P), mounthDate)) - 1)));
+  totalAmount = degree * mounthDate;
   return totalAmount.toFixed(2);
 };
-console.log(calculateTotalMortgage(10, 0, 50000, 12));
+console.log(calculateTotalMortgage(15, 0, 10_000, "plannedDate", 3));
+console.log(calculateTotalMortgage(10, 0, 10_000, "plannedDate", 3));
+console.log(calculateTotalMortgage(10, 20_000, 20_000, "plannedDate", 4));
+console.log(calculateTotalMortgage(10, 1_000, 50_000, "plannedDate", 1));
+console.log(calculateTotalMortgage(10, 0, 50_000, "plannedDate", 1));
