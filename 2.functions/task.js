@@ -16,7 +16,7 @@ function getArrayParams(...args) {
       max = maxMassiv;
     }
     if (min > minMassiv) {
-      max = minMassiv;
+      min = minMassiv;
     }
   }
   return data = {
