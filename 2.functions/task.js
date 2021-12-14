@@ -2,27 +2,27 @@
 "use strict";
 function getArrayParams(...args) {
   let data = {};
-  let max = args[0];
-  let min = args[0];
+  let max = -Infinity;
+  let min = Infinity;
   let maxMassiv = Math.max.apply(null, args);
   let minMassiv = Math.min.apply(null, args);
   let result = args.reduce(function(sum, current) {
     return sum + current;
   }, 0);
   let avgMassiv = result / args.length;
-  let avg = Number(avgMassiv.toFixed(2));
+   data.avg = Number(avgMassiv.toFixed(2));
   for (let i = 0; i < 1; i += 1) {
     if (max < maxMassiv) {
-      max = maxMassiv;
+      data.max = maxMassiv;
     }
-    if (min > minMassiv) {
-      min = minMassiv;
+    if (minMassiv < min) {
+      data.min = minMassiv;
     }
   }
   return data = {
-    min: min,
-    max: max,
-    avg: avg,
+    min: data.min,
+    max: data.max,
+    avg: data.avg,
   };
 }
 console.log(getArrayParams(-99, 99, 10));
