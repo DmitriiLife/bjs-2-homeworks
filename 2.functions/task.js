@@ -1,6 +1,6 @@
 // // Задание 1
 "use strict";
-function getArrayParams(...args) {
+function getArrayParams(args) {
   let max = Math.max.apply(null, args);
   let min = Math.min.apply(null, args);
   let result = args.reduce((sum, current) => sum + current, 0);
@@ -46,8 +46,8 @@ function worker2(arr) {
 }
 
 alert("Задание 1");
-console.log(getArrayParams(1, 2, 3, -100, 10));
-console.log(getArrayParams(-99, 99, 10));
+console.log(getArrayParams([1, 2, 3, -100, 10]));
+console.log(getArrayParams([-99, 99, 10]));
 alert("Задание 2");
 console.log(makeWork([[1, 2, 3], [4, 5, 6]], worker));//15
 console.log(makeWork([[10, 10, 11], [20, 10]], worker));//31
