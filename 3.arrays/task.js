@@ -1,19 +1,11 @@
 "use strict";
-//Задание 1
 const compareArrays = (arr1, arr2) =>
   arr1.length === arr2.length &&
   arr1.every((n, i) => n === arr2[i]);
-  //Задание 2
+
 function advancedFilter(arr) {
   let resultArr;
-  const map1 = arr.map(x => x * 10);
-  let positiveArr = map1.filter(function(i) {
-    return i > 0;
-  });
-  let tripleArr = positiveArr.filter(function(i) {
-    return i % 3 == 0;
-  });
-  return resultArr = tripleArr;
+  return arr.filter(((i) => i > 0)).filter(((i) => i % 3 == 0)).map((x => x * 10));
 }
 alert("Задание 1");
 console.log(compareArrays([1, 2, 3], [1, 2, 3]));//true
