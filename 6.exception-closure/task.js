@@ -48,11 +48,11 @@ function getTriangle(a, b, c) {
   };
 };
 
-// console.log(parseCount('123'));
-// console.log(parseCount('012'));
-// console.log(validateCount('56'));
-// console.log(validateCount('ыфва'));
-// console.log(parseCount('ыфва'));
+console.log(parseCount('123'));
+console.log(parseCount('012'));
+console.log(validateCount('56'));
+console.log(validateCount('ыфва'));
+console.log(parseCount('ыфва'));
 let what = new Triangle(1, 2, 1);
 console.log(what);
 console.log(what.getPerimeter());
