@@ -20,31 +20,32 @@ class AlarmClock {
     return beginLenght > endLenght;
   };
 
-  getCurrentFormattedTime() {
-    return new Date().toTimeString().slice(0, 5);
-  }
-
-  nextTime(plusMinutes) {
-    let date = new Date();
-    let hours = date.getHours();
-    let minutes = date.getMinutes() + plusMinutes;
+  getCurrentFormattedTime(second) {
+    if (second == 0 || second == undefined) {
+      return new Date().toTimeString().slice(0, 5);
+    }
+    let d = new Date();
+    let millisecondssince1970 = d.getTime();
+    let newMillisec = millisecondssince1970 + (1000 * second);
+    let newDate = new Date(newMillisec);
+    let minutes = newDate.getMinutes();
     minutes = minutes < 10 ? '0' + minutes : minutes;
-    let strTime = hours + ':' + minutes;
-    return strTime;
-  }
+    let hour = newDate.getHours();
+    return hour + ":" + minutes;
+  };
 
   start() {
-    function checkClock(clock) {
+    let checkClock = (clock) => {
       let alarm = this.getCurrentFormattedTime();
       if (clock.time === alarm) {
-        return clock.callback();
+        clock.callback();
       };
-      if (this.timerId === null) {
-        this.timerId = setInterval(() => {
-          this.alarmCollection.forEach(clock => checkClock(clock));
-        }, 1000);
-      };
-    }
+    };
+    if (this.timerId === null) {
+      this.timerId = setInterval(() => {
+        this.alarmCollection.forEach(clock => checkClock(clock));
+      }, 1_000);
+    };
     return;
   };
 
@@ -67,14 +68,10 @@ class AlarmClock {
 
 function testCase() {
   const phoneAlarm = new AlarmClock();
-  phoneAlarm.addClock(phoneAlarm.nextTime(0), () => console.log('Ещё Спишь?'), 1);
-  phoneAlarm.addClock(phoneAlarm.nextTime(1), () => console.log('Пора бы уже встать!'), 2);
-  phoneAlarm.addClock(phoneAlarm.nextTime(2), () => console.log('Ну..спи дальше!'), 3);
-  phoneAlarm.addClock(phoneAlarm.nextTime(3), () => console.log('Пора бы!'), 4);
+  phoneAlarm.addClock(phoneAlarm.getCurrentFormattedTime(), () => console.log('Ещё Спишь?'), 1);
+  phoneAlarm.addClock(phoneAlarm.getCurrentFormattedTime(60), () => { console.log('Пора бы уже встать!'); phoneAlarm.removeClock; }, 2);
+  phoneAlarm.addClock(phoneAlarm.getCurrentFormattedTime(120), () => { console.log('Ну..спи дальше!'); phoneAlarm.clearAlarms(); phoneAlarm.printAlarms(); }, 3);
   phoneAlarm.printAlarms();
-  phoneAlarm.removeClock(4);
-  phoneAlarm.printAlarms();
-  phoneAlarm.start();
-  phoneAlarm.stop();
+  //phoneAlarm.start();
 };
 testCase();
