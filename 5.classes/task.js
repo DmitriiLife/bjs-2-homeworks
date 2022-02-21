@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 class PrintEditionItem {
   constructor(name, releaseDate, pagesCount) {
     this.name = name;
@@ -6,79 +6,78 @@ class PrintEditionItem {
     this.pagesCount = pagesCount;
     this.state = 100;
     this.type = null;
-  };
+  }
   fix() {
     this.state = this._state * 1.5;
-  };
+  }
   set state(number) {
     this._state = number;
-    if (this._state < 0)
-      this._state = 0;
-    if (this._state > 100)
-      this._state = 100;
-    if (this._state >= 0 && this._state <= 100)
-      this._state;
-  };
-  get state() { return this._state; };
-};
+    if (this._state < 0) this._state = 0;
+    if (this._state > 100) this._state = 100;
+  }
+  get state() {
+    return this._state;
+  }
+}
 class Magazine extends PrintEditionItem {
   constructor(name, releaseDate, pagesCount) {
     super(name, releaseDate, pagesCount);
     this.type = "magazine";
-  };
-};
+  }
+}
 class Book extends PrintEditionItem {
   constructor(author, name, releaseDate, pagesCount) {
     super(name, releaseDate, pagesCount);
     this.type = "book";
     this.author = author;
-  };
-};
+  }
+}
 class NovelBook extends Book {
   constructor(author, name, releaseDate, pagesCount) {
     super(author, name, releaseDate, pagesCount);
     this.type = "novel";
-  };
-};
+  }
+}
 class FantasticBook extends Book {
   constructor(author, name, releaseDate, pagesCount) {
     super(author, name, releaseDate, pagesCount);
     this.type = "fantastic";
-  };
-};
+  }
+}
 class DetectiveBook extends Book {
   constructor(author, name, releaseDate, pagesCount) {
     super(author, name, releaseDate, pagesCount);
     this.type = "detective";
-  };
-};
+  }
+}
 //Задание 2
-class Library extends PrintEditionItem {
-  constructor(name) {
-    super(name)
+class Library extends Magazine {
+  constructor(name, releaseDate, pagesCount) {
+    super(name, releaseDate, pagesCount);
+    this.name = name;
     this.books = [];
-  };
+  }
   addBook(book) {
-    if (this._state > 30)
-      this.books.push(book);
-  };
+    if (this._state > 30) this.books.push(book);
+  }
+
   findBookBy(type, value) {
     for (let i = 0; i < this.books.length; i++) {
       if (this.books[i][type] === value) {
         return this.books[i];
-      };
-    };
+      }
+    }
     return null;
-  };
+  }
   giveBookByName(bookName) {
-    for (let i = 0; i < this.books.length; i++) {
-      if (this.books[i].name === bookName) {
-        return this.books.splice(i, 1)[0];
-      };
-    };
+    let findBook = this.findBookBy("name", bookName);
+    let idx = this.books.indexOf(findBook);
+    if (idx !== -1) {
+      return this.books.splice(idx, 1)[0];
+    }
     return null;
-  };
-};
+  }
+}
 
 const library = new Library("Библиотека имени Ленина");
 library.addBook(
@@ -117,74 +116,52 @@ console.log("Количество книг после выдачи: " + library.
 class Student {
   constructor(name) {
     this.name = name;
-    this.mark = [];
-    this.markAlgebra = [];
-    this.markGeometry = [];
-    this.avgMark;
-  };
+    this.marks = [];
+  }
   addMark(mark, subject) {
-    if (mark < 1 && mark > 5) {
-      this.reason = "Ошибка, оценка должна быть числом от 1 до 5";
-    };
-    if (mark >= 1 && mark <= 5) {
-      this.mark.push(mark);
-    };
-    if (subject == "algebra") {
-      this.markAlgebra.push(subject && mark);
-    };
-    if (subject == "geometry") {
-      this.markGeometry.push(subject && mark);
-    };
-    if (subject != "algebra" && subject != "geometry") {
-      this.reason = "Несуществующий предмет";
-    };
-    return this.mark;
-  };
+    if (mark < 1 || mark > 5) {
+      return console.log("Ошибка, оценка должна быть числом от 1 до 5");
+    }
+    if (this.marks[subject] === undefined) {
+      this.marks[subject] = [];
+    }
+    this.marks[subject].push(mark);
+  }
   exclude(reason) {
-    this.reason = reason;
-  };
+    delete this.marks;
+    this.excluded = reason;
+  }
   getAverage() {
     let sum = 0;
-    let arrNumber = this.mark.filter(function(number) {
-      return number > 0;
-    });
-    for (let i = 0; i < arrNumber.length; i++) {
-      sum = sum + arrNumber[i];
-    };
-    return this.avgMark = sum / arrNumber.length;
-  };
+    let lengthSum = 0;
+    for (let subject in this.marks) {
+      sum += this.marks[subject].reduce((sum, item) => sum + item);
+      lengthSum += this.marks[subject].length;
+    }
+    return sum / lengthSum;
+  }
   getAverageBySubject(subject) {
+    if (!(subject in this.marks)) {
+      return "Несуществующий предмет";
+    }
     let sum = 0;
-    if (subject != "algebra" && subject != "geometry") {
-      this.reason = "Несуществующий предмет";
-    };
-    if (subject == "geometry") {
-      for (let i = 0; i < this.markGeometry.length; i++) {
-        sum = sum + this.markGeometry[i];
-      };
-      return this.avgGeo = sum / this.markGeometry.length;
-    };
-    if (subject == "algebra") {
-      for (let i = 0; i < this.markAlgebra.length; i++) {
-        sum = sum + this.markAlgebra[i];
-      };
-      return this.avgAlg = sum / this.markAlgebra.length;
-    };
-  };
+    for (let mark of this.marks[subject]) {
+      sum += mark;
+    }
+    return sum / this.marks[subject].length;
+  }
 }
 
 const student = new Student("Олег Никифоров");
-console.log(student.name);
 student.addMark(5, "algebra");
-student.addMark(3, "algebra");
+student.addMark(5, "algebra");
 student.addMark(5, "geometry");
 student.addMark(4, "geometry");
-student.addMark(6, "biology");
-student.addMark(-2, "biology");
-student.getAverage();
-student.exclude("Исключен за попытку подделать оценки");
-student.getAverageBySubject("geometry"); // Средний балл по предмету geometry
-student.getAverageBySubject("algebra"); // Средний балл по предмету algebra
+student.addMark(6, "geometry"); // "Ошибка, оценка должна быть числом от 1 до 5"
+student.addMark(0, "geometry"); // "Ошибка, оценка должна быть числом от 1 до 5"
+console.log(student);
+student.getAverageBySubject("geometry"); // Средний балл по предмету geometry 4.5
 student.getAverageBySubject("biology"); // Несуществующий предмет
-student.getAverage(); // Средний балл по всем предметам
+student.getAverage(); // Средний балл по всем предметам 4.75
+student.exclude("Исключен за попытку подделать оценки");
 console.log(student);
