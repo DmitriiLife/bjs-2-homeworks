@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 //Задача 1
 let cachingDecoratorNew = (func) => {
   let cache = [];
@@ -6,16 +6,16 @@ let cachingDecoratorNew = (func) => {
     const hash = args.toString();
     let idx = cache.findIndex((item) => item.hash === hash);
     if (idx !== -1) {
-      console.log("из кэша: " + cache[idx].result);
-      return "из кэша: " + cache[idx].result;
-    };
+      console.log("Из кэша: " + cache[idx].result);
+      return "Из кэша: " + cache[idx].result;
+    }
     let result = func(...args);
     cache.push({ hash, result });
     if (cache.length > 5) {
       cache.shift();
-    };
-    console.log("вычисляем: " + result);
-    return "вычисляем: " + result;
+    }
+    console.log("Вычисляем: " + result);
+    return "Вычисляем: " + result;
   };
 };
 
@@ -27,13 +27,13 @@ function debounceDecoratorNew(func, ms) {
     clearTimeout(timeout);
     if (!throttled) {
       func.apply(this, args);
-    };
+    }
     throttled = true;
     timeout = setTimeout(() => {
-      func.apply(this, args);
+      func.call(this, args);
     }, ms);
   };
-};
+}
 
 //Задача 3
 const add = (a, b) => a + b;
@@ -45,13 +45,13 @@ function debounceDecorator2(func, ms) {
     clearTimeout(timeout);
     if (!throttled) {
       func.call(this, ...args);
-    };
+    }
     throttled = true;
     timeout = setTimeout(() => {
       throttled = false;
       func.call(this, ...args);
     }, ms);
-  };
+  }
   wrapper.count = 0;
   return wrapper;
-};
+}
