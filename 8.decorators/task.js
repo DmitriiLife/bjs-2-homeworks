@@ -30,7 +30,8 @@ function debounceDecoratorNew(func, ms) {
     }
     throttled = true;
     timeout = setTimeout(() => {
-      func.call(this, args);
+      throttled = false;
+      func.apply(this, args);
     }, ms);
   };
 }
